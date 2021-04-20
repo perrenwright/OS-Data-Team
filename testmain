@@ -14,6 +14,7 @@ Using namespace std;
 #define EATING 1
 #define THINKING 2
 
+//binary semaphore
 SDL_sem *s[5]; //one semaphore per philosopher
 bool quit=false;
 SDL_mutex *mutex;
@@ -37,11 +38,13 @@ Void take_chops (int i){
 Void check (int i){
 	int left =LEFT;
 	If (left <0) left+=5;
+	//Below checks if left is not eating and right is not eating
 	if (state[i] == HUNGRY && state[left] != EATING && state[RIGHT] != EATING){
 		state[i]=EATING;
-		//SemPost= signal
+		//if not eating, then signal
+		//SemPost= signal s[i]
 		SDL_SemPost ( s[i] );
-}
+	}
 }
 void putdown( int i){
 	SDL_LockMutex (mutex);
@@ -54,12 +57,13 @@ void putdown( int i){
 void pickup (int i){
 	//LockMutex is the same as having the mutex wait
 	//Unlock is signal
-	SDL_LockMutex (mutex);
-	state[i] = HUNGRY;
-	check(i);
+	SDL_LockMutex (mutex); //philosopher gets lock from mutex
+	state[i] = HUNGRY; //then sets their state to hungry
+	//goes to check function
+	check(i); //checks to see if left and right chopsticks are free
 	SDL_UnlockMutex (mutex);
 	//wait
-	SDL_SemWait (s[i]);
+	SDL_SemWait (s[i]); //blocks if chopsticks were not acquired
 }
 
 void put_chops( int i){
@@ -67,6 +71,8 @@ void put_chops( int i){
 }
 
 int philosopher( void *data){
+	//STARTS HERE
+	//infinite loop
 	int i = atoi ( (char *) data);
 	printf(“\nPhilosopher %d “, i );
 	while( !quit){
