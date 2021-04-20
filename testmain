@@ -5,6 +5,7 @@
 #include <math.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 Using namespace std;
 
@@ -41,9 +42,11 @@ Void check (int i){
 	//Below checks if left is not eating and right is not eating
 	if (state[i] == HUNGRY && state[left] != EATING && state[RIGHT] != EATING){
 		state[i]=EATING;
+		//if one state = eating then the bottom 2 statements won't be executed
 		//if not eating, then signal
 		//SemPost= signal s[i]
 		SDL_SemPost ( s[i] );
+		//GOES BACK TO PICKUP FUNCTION
 	}
 }
 void putdown( int i){
@@ -51,7 +54,7 @@ void putdown( int i){
 	state[i] = THINKING;
 	check (LEFT);
 	check (RIGHT);
-	SDL_UnlockMutex (mutex);
+	SDL_UnlockMutex (mutex); 
 }
 
 void pickup (int i){
@@ -67,6 +70,7 @@ void pickup (int i){
 }
 
 void put_chops( int i){
+//STARTS HERE
 	SDL_Delay( rand() % 500);
 }
 
