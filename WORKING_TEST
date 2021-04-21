@@ -102,7 +102,7 @@ int main()
 {
  
     int i;
-    pthread_t thread_id[5];
+    pthread_t tid[5];
  
     // initialize the semaphores
     sem_init(&mutex, 0, 1);
@@ -114,7 +114,7 @@ int main()
     for (i = 0; i < 5; i++) {
  
         // create philosopher processes
-        pthread_create(&thread_id[i], NULL,
+        pthread_create(&tid[i], NULL,
                        philospher, &phil[i]);
  
         printf("Philosopher %d is thinking\n", i + 1);
@@ -122,5 +122,5 @@ int main()
  
     for (i = 0; i < 5; i++)
  
-        pthread_join(thread_id[i], NULL);
+        pthread_join(tid[i], NULL);
 }
