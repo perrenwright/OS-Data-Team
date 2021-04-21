@@ -71,8 +71,7 @@ void putdown_chop(int phnum)
     // state that thinking
     state[phnum] = THINKING;
  
-    printf("Philosopher %d putting chopsticks %d and %d down\n",
-           phnum + 1, LEFT + 1, phnum + 1);
+    printf("Philosopher %d is putting their chopsticks down\n", phnum + 1);
     printf("Philosopher %d is thinking\n", phnum + 1);
  
     check(LEFT);
