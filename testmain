@@ -19,7 +19,7 @@ Using namespace std;
 SDL_sem *s[5]; //one semaphore per philosopher
 bool quit=false;
 SDL_mutex *mutex;
-int state[5]; //array keeping track of everyone’s sate
+int state[5]; //array keeping track of everyone’s state
 
 void think(int i){
 	SDL_Delay ( rand() % 3000);
