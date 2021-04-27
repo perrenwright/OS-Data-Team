@@ -17,11 +17,14 @@ sem_t S[5];
  
 void check(int phnum)
 {
+   //only one philosopher passed in at a time, making it mutually exclusive
     if (state[phnum] == HUNGRY
         && state[LEFT] != EATING
         && state[RIGHT] != EATING) {
         // state that eating
         state[phnum] = EATING;
+     //deadlock free
+     //mutually exclusive in that no 2 neighbors can eat simultaneously
  
         sleep(2);
         printf(" \n");
